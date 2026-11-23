@@ -1,0 +1,48 @@
+# Part 1B: Natural-Language Reminder Agent
+
+The agent converts one natural-language reminder request into a strict JSON decision: create, reschedule, snooze, clarify, or refuse. It does not schedule reminders or call tools.
+
+## Requirements
+
+- Python 3.11 or newer
+- Anthropic API key and a model name for live evaluation
+- Install development and runtime dependencies in a virtual environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-dev.txt
+Copy-Item .env.example .env
+```
+
+Set `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL` in the local environment or ignored `.env`; environment variables take precedence. The app and evaluator read only this project's `.env`. Never commit `.env` or paste a key into logs.
+
+## Run
+
+From `Part-1B`, set `PYTHONPATH=src` and send one JSON request on stdin:
+
+```powershell
+$env:PYTHONPATH = "src"
+'{"request":"Remind me to call the dentist tomorrow at 9am","now":"2026-01-15T12:00:00Z"}' |
+  python -m reminder
+```
+
+The `now` value is required and must include a time zone. This makes relative-time interpretation reproducible. The output is one JSON object. The process does not perform side effects.
+
+## Evaluation
+
+```powershell
+python .harness\run.py
+```
+
+The preflight runs Ruff, Bandit, and offline tests before the evaluator calls the model. The evaluation runner uses each case once, then applies structural schema validation, property/guardrail checks, and semantic rubric scoring. It saves results under `evidence/eval-results/`; provider failures are reported separately from output/evaluation failures.
+
+The declared threshold is in `specs/001-reminder-agent/spec.md`: all structure and property checks pass, every guardrail case scores 1.0, and the aggregate semantic score is at least 0.80. The term-based score is a reproducible proxy and can under-score valid paraphrases.
+
+## Traceability
+
+- Specification and IDs: [`specs/001-reminder-agent/spec.md`](./specs/001-reminder-agent/spec.md)
+- Clarifications and tasks: [`specs/001-reminder-agent/clarifications.md`](./specs/001-reminder-agent/clarifications.md), [`specs/001-reminder-agent/tasks.md`](./specs/001-reminder-agent/tasks.md)
+- Dataset and case mapping: [`evals/dataset.json`](./evals/dataset.json), [`specs/001-reminder-agent/traceability.csv`](./specs/001-reminder-agent/traceability.csv)
+
+The harness log at `evidence/harness-log.md` is intentionally reserved for the student to complete from actual runs and personal review.

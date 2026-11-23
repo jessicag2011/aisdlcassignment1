@@ -1,0 +1,45 @@
+{
+  "run_id": "20261123T144514Z-f5fe5c0c",
+  "checked_at": "2026-11-23T14:45:20.477999+00:00",
+  "target": "Part-1B",
+  "model": null,
+  "temperature": 0,
+  "max_tokens": 512,
+  "timeout_seconds": 45,
+  "max_provider_calls_per_valid_case": 1,
+  "threshold": {
+    "semantic": 0.8,
+    "all_structural_and_properties_pass": true,
+    "all_guardrails_score_1": true
+  },
+  "preflight": [
+    {
+      "name": "ruff",
+      "passed": false,
+      "exit_code": 1,
+      "stdout": "I001 [*] Import block is un-sorted or un-formatted\n --> tests\\test_evaluator.py:1:1\n  |\n1 | / import json\n2 | | from pathlib import Path\n3 | | from typing import Any\n4 | |\n5 | | from evaluator import aggregate_results, evaluate_case\n6 | | from reminder.schema import schema_findings\n  | |___________________________________________^\n7 |\n8 |   ROOT = Path(__file__).resolve().parents[1]\n  |\nhelp: Organize imports\n  |\n5 | from evaluator import aggregate_results, evaluate_case\n6 +\n7 | from reminder.schema import schema_findings\n  |\n\nFound 1 error.\n[*] 1 fixable with `--fix`.\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "...................                                                      [100%]\n19 passed in 3.48s\n",
+      "stderr": ""
+    }
+  ],
+  "results": [],
+  "status": "blocked_preflight",
+  "summary": {
+    "passed": false,
+    "model_calls": 0,
+    "message": "Evaluation stopped before model calls because a preflight gate failed."
+  }
+}

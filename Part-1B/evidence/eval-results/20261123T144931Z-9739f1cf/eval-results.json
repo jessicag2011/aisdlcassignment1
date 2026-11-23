@@ -1,0 +1,54 @@
+{
+  "run_id": "20261123T144931Z-9739f1cf",
+  "checked_at": "2026-11-23T14:49:31.678997+00:00",
+  "target": "Part-1B",
+  "model": null,
+  "temperature": 0,
+  "max_tokens": 512,
+  "timeout_seconds": 45,
+  "max_provider_calls_per_valid_case": 1,
+  "threshold": {
+    "semantic": 0.8,
+    "all_structural_and_properties_pass": true,
+    "all_guardrails_score_1": true
+  },
+  "preflight": [
+    {
+      "name": "ruff",
+      "passed": false,
+      "exit_code": 1,
+      "stdout": "I001 [*] Import block is un-sorted or un-formatted\n --> tests\\test_evaluation_runner.py:1:1\n  |\n1 | / import json\n2 | | from subprocess import CompletedProcess\n3 | | from typing import Any\n4 | |\n5 | | import pytest\n6 | |\n7 | | import evaluate\n  | |_______________^\nhelp: Organize imports\n  |\n4 |\n  - import pytest\n  -\n5 | import evaluate\n6 + import pytest\n7 |\n  |\n\nFound 1 error.\n[*] 1 fixable with `--fix`.\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": false,
+      "exit_code": null,
+      "stdout": "",
+      "stderr": "Skipped because a static gate failed.",
+      "status": "skipped"
+    },
+    {
+      "name": "harness-self-check",
+      "passed": false,
+      "exit_code": null,
+      "stdout": "",
+      "stderr": "Skipped because a static gate failed.",
+      "status": "skipped"
+    }
+  ],
+  "results": [],
+  "status": "blocked_preflight",
+  "summary": {
+    "passed": false,
+    "model_calls": 0,
+    "message": "Evaluation stopped before model calls because a preflight gate failed."
+  }
+}

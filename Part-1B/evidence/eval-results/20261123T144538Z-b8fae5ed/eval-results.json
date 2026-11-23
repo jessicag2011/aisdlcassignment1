@@ -1,0 +1,45 @@
+{
+  "run_id": "20261123T144538Z-b8fae5ed",
+  "checked_at": "2026-11-23T14:45:43.533728+00:00",
+  "target": "Part-1B",
+  "model": null,
+  "temperature": 0,
+  "max_tokens": 512,
+  "timeout_seconds": 45,
+  "max_provider_calls_per_valid_case": 1,
+  "threshold": {
+    "semantic": 0.8,
+    "all_structural_and_properties_pass": true,
+    "all_guardrails_score_1": true
+  },
+  "preflight": [
+    {
+      "name": "ruff",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "...................                                                      [100%]\n19 passed in 3.43s\n",
+      "stderr": ""
+    }
+  ],
+  "results": [],
+  "status": "blocked_configuration",
+  "summary": {
+    "passed": false,
+    "model_calls": 0,
+    "message": "Set ANTHROPIC_API_KEY and ANTHROPIC_MODEL locally before evaluation."
+  }
+}
