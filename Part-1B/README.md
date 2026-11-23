@@ -51,3 +51,5 @@ The declared threshold is in `specs/001-reminder-agent/spec.md`: all structure a
 The harness log at `evidence/harness-log.md` is intentionally reserved for the student to complete from actual runs and personal review.
 
 The fresh-clone report is [`evidence/eval-results/fresh-clone-20261123T145651Z-88e9ee23/eval-results.json`](./evidence/eval-results/fresh-clone-20261123T145651Z-88e9ee23/eval-results.json). It records a blocked configuration, not a model evaluation.
+
+The latest local attempt is [`evidence/eval-results/20261123T152149Z-2d4918d2/eval-results.json`](./evidence/eval-results/20261123T152149Z-2d4918d2/eval-results.json). All four preflight gates pass, but evaluation is blocked because the required Anthropic configuration is absent; the report records zero model calls.
