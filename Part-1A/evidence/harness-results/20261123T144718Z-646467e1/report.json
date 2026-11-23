@@ -1,0 +1,38 @@
+{
+  "run_id": "20261123T144718Z-646467e1",
+  "checked_at": "2026-11-23T14:47:18.091198+00:00",
+  "target": "Part-1A",
+  "passed": false,
+  "gates": [
+    {
+      "name": "ruff",
+      "passed": false,
+      "exit_code": 1,
+      "stdout": "E501 Line too long (109 > 100)\n  --> .harness\\self_check.py:90:101\n   |\n88 |         _gate_result(\"pytest\", pytest_good, pytest_bad),\n89 |     ]\n90 |     return {\"passed\": all(gate[\"good_passed\"] and gate[\"broken_rejected\"] for gate in gates), \"gates\": gates}\n   |                                                                                                     ^^^^^^^^^\n\nFound 1 error.\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": false,
+      "exit_code": null,
+      "stdout": "",
+      "stderr": "Skipped because a static gate failed.",
+      "status": "skipped"
+    },
+    {
+      "name": "harness-self-check",
+      "passed": false,
+      "exit_code": null,
+      "stdout": "",
+      "stderr": "Skipped because a static gate failed.",
+      "status": "skipped"
+    }
+  ]
+}

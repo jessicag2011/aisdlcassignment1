@@ -1,0 +1,36 @@
+{
+  "run_id": "20261123T144739Z-204911a8",
+  "checked_at": "2026-11-23T14:47:39.743526+00:00",
+  "target": "Part-1A",
+  "passed": true,
+  "gates": [
+    {
+      "name": "ruff",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "...............                                                          [100%]\n15 passed in 4.66s\n",
+      "stderr": ""
+    },
+    {
+      "name": "harness-self-check",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "{\n  \"passed\": true,\n  \"gates\": [\n    {\n      \"name\": \"ruff\",\n      \"good_passed\": true,\n      \"broken_rejected\": true,\n      \"good_exit_code\": 0,\n      \"broken_exit_code\": 1\n    },\n    {\n      \"name\": \"bandit\",\n      \"good_passed\": true,\n      \"broken_rejected\": true,\n      \"good_exit_code\": 0,\n      \"broken_exit_code\": 1\n    },\n    {\n      \"name\": \"pytest\",\n      \"good_passed\": true,\n      \"broken_rejected\": true,\n      \"good_exit_code\": 0,\n      \"broken_exit_code\": 1\n    }\n  ]\n}\n",
+      "stderr": ""
+    }
+  ]
+}

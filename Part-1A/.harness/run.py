@@ -27,6 +27,17 @@ def _run_gate(name: str, command: list[str]) -> dict[str, object]:
     }
 
 
+def _skipped_gate(name: str) -> dict[str, object]:
+    return {
+        "name": name,
+        "passed": False,
+        "exit_code": None,
+        "stdout": "",
+        "stderr": "Skipped because a static gate failed.",
+        "status": "skipped",
+    }
+
+
 def main() -> int:
     gates = [
         _run_gate(
@@ -46,19 +57,30 @@ def main() -> int:
             "bandit",
             [sys.executable, "-m", "bandit", "-q", "-r", "src"],
         ),
-        _run_gate(
-            "pytest",
-            [
-                sys.executable,
-                "-m",
-                "pytest",
-                "-p",
-                "no:cacheprovider",
-                "-q",
-                "tests",
-            ],
-        ),
     ]
+    if all(gate["passed"] for gate in gates):
+        gates.extend(
+            [
+                _run_gate(
+                    "pytest",
+                    [
+                        sys.executable,
+                        "-m",
+                        "pytest",
+                        "-p",
+                        "no:cacheprovider",
+                        "-q",
+                        "tests",
+                    ],
+                ),
+                _run_gate(
+                    "harness-self-check",
+                    [sys.executable, ".harness/self_check.py"],
+                ),
+            ]
+        )
+    else:
+        gates.extend([_skipped_gate("pytest"), _skipped_gate("harness-self-check")])
     passed = all(gate["passed"] for gate in gates)
     timestamp = datetime.now(UTC).isoformat()
     report = {
