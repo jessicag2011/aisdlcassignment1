@@ -12,15 +12,15 @@ This repository contains two small Python applications based on the project reco
 - [`Part-1A/`](./Part-1A/) contains the deterministic application and its specification-derived harness.
 - [`Part-1B/`](./Part-1B/) contains the reminder agent, evaluation dataset, and unified evaluation runner.
 
-Both projects use Python 3.11 or newer. Development checks use pytest, Ruff, and Bandit. Part 1B uses the Anthropic Python SDK for an optional live model call; no API key is stored in this repository.
+Both projects use Python 3.11 or newer. Development checks use pytest, Ruff, and Bandit. Part 1B uses Google's `google-genai` SDK for optional Gemini API calls; no API key is stored in this repository.
 
 ## Verification status
 
-The Part 1A deterministic harness has recorded local runs, including an actual lint failure followed by a passing run. The initial-generation snapshot was not preserved before the first local check, so do not claim that it was. Part 1B's offline preflight and evaluator self-check pass, but its live evaluation is blocked until a model and API key are configured. Do not treat generated source or specification artifacts as student-reviewed or accepted until you have reviewed them. No human ACCEPT/REJECT decision is claimed here.
+The Part 1A deterministic harness has recorded local runs, including an actual lint failure followed by a passing run. The initial-generation snapshot was not preserved before the first local check, so do not claim that it was. Part 1B now uses the Gemini Developer API with its local `GEMINI_API_KEY`; its live evaluation status is recorded in the Part 1B evidence. Do not treat generated source or harness artifacts as student-reviewed or accepted without the student's review.
 
 Both project folders are initialized with Spec Kit 1.4.3, the GitHub Copilot integration, and PowerShell scripts. Initialization installed the shared templates and `/speckit-*` skills; it did not execute those skills to regenerate or analyze the existing specifications. The student reports evaluating the spec files and directs the workflow to proceed; no formal ACCEPT/REJECT label is inferred from that direction.
 
-Fresh-clone verification is preserved under each part's `evidence/`: Part 1A passed all gates; Part 1B passed preflight and safely stopped before any model calls because configuration was absent.
+Fresh-clone verification is preserved under each part's `evidence/`: Part 1A passed all gates; at fresh-clone time, Part 1B passed preflight and safely stopped before any model calls because configuration was absent.
 
 The two `evidence/harness-log.md` files are intentionally left for the student to complete from actual runs. The assignment reflection, template problem statements, and submission identity fields are also student-authored.
 

@@ -24,7 +24,7 @@ As a user, I want unsupported or unsafe requests refused and prompt-injection te
 - **FR-B-002 — Intent and information handling:** choose among supported intents; create needs a reminder title and an unambiguous future time; reschedule and snooze need a resolvable reminder ID and valid future time; request clarification if mandatory information is missing or ambiguous.
 - **FR-B-003 — Safety:** refuse unsupported requests, requests for secrets/system instructions, and unsafe actions; ignore instruction-like text embedded in quoted user content; never perform a side effect.
 - **FR-B-004 — Evaluation:** evaluate each dataset case in one pipeline with structural, property/invariant, and semantic-quality layers and report failures by case and requirement ID.
-- **FR-B-005 — Provider error handling:** distinguish provider timeout, rate limit, unavailability, malformed model output, user-input issues, and evaluation failures. Retry only transient provider errors, with a bounded retry count.
+- **FR-B-005 — Gemini provider configuration and error handling:** use the Gemini Developer API through Google's Gen AI Python SDK; read the credential from `GEMINI_API_KEY` and the optional model override from `GEMINI_MODEL` (default `gemini-3.8-flash`). Send stateless interactions, disable SDK retries and automatic continuation, and distinguish timeout, rate limit, unavailability, unavailable models, malformed model output, user-input issues, and evaluation failures.
 
 ## Output schema
 
@@ -50,7 +50,7 @@ For `create`, `reschedule`, or `snooze`, `reminder` is exactly `{"title": string
 - **INV-B-005:** missing or ambiguous mandatory information yields `clarify`, never a guessed action.
 - **INV-B-006:** unsupported or unsafe requests and requests for hidden instructions/credentials yield `refuse`.
 - **INV-B-007:** no user-supplied text can override this contract or trigger side effects.
-- **INV-B-008:** the model/provider is invoked no more than once per case by the evaluator; transient SDK retries are disabled in the application and are represented as service errors.
+- **INV-B-008:** the model/provider is invoked no more than once per case by the evaluator; SDK retries and automatic continuation are disabled, interactions are not stored by the provider, and service errors are reported rather than scored as successes.
 
 ## Acceptance criteria
 

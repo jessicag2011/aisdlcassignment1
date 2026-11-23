@@ -1,8 +1,13 @@
 import json
+from types import SimpleNamespace
+from typing import Any
 
+import httpx
 import pytest
+from google.genai.errors import APIError
 
-from reminder.agent import ReminderAgent
+import reminder.agent as agent_module
+from reminder.agent import DEFAULT_MODEL, ReminderAgent
 from reminder.errors import InputError, ModelOutputError, ProviderError
 
 
@@ -21,6 +26,19 @@ def _response(
             "clarification": None,
             "reason": None,
         }
+    )
+
+
+def _interactions_api_error(status_code: int) -> Exception:
+    response = httpx.Response(
+        status_code,
+        request=httpx.Request("POST", "https://example.test/interactions"),
+    )
+    return agent_module.InteractionsAPIError.generate(
+        status_code,
+        {"error": {"message": "provider request failed"}},
+        "provider request failed",
+        response,
     )
 
 
@@ -88,19 +106,88 @@ def test_past_model_due_time_is_rejected() -> None:
         agent.parse("Call the dentist yesterday", "2026-01-15T12:00:00Z")
 
 
-def test_missing_api_key_is_a_configuration_error(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    monkeypatch.setenv("ANTHROPIC_MODEL", "test-model")
+def test_gemini_configuration_uses_model_default_and_stateless_json(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: dict[str, Any] = {}
+
+    class FakeInteractions:
+        def create(self, **kwargs: Any) -> SimpleNamespace:
+            captured["request"] = kwargs
+            return SimpleNamespace(output_text=_response())
+
+    class FakeClient:
+        def __init__(self, *, api_key: str, http_options: Any) -> None:
+            captured["api_key"] = api_key
+            captured["http_options"] = http_options
+            self.interactions = FakeInteractions()
+
+    monkeypatch.setattr(agent_module, "load_dotenv", lambda **_: None)
+    monkeypatch.setattr(agent_module.genai, "Client", FakeClient)
+    monkeypatch.setenv("GEMINI_API_KEY", "not-a-real-test-key")
+    monkeypatch.delenv("GEMINI_MODEL", raising=False)
+
+    agent = ReminderAgent.from_environment()
+    parsed = agent.parse("Call the dentist tomorrow at 9am", "2026-01-15T12:00:00Z")
+
+    request = captured["request"]
+    http_options = captured["http_options"]
+    assert parsed["intent"] == "create"
+    assert captured["api_key"] == "not-a-real-test-key"
+    assert request["model"] == DEFAULT_MODEL
+    assert request["store"] is False
+    assert request["automatic_continuation"] is False
+    assert request["response_format"]["mime_type"] == "application/json"
+    assert request["system_instruction"] == agent_module.SYSTEM_PROMPT
+    assert http_options.timeout == int(agent_module.REQUEST_TIMEOUT_SECONDS * 1000)
+    assert http_options.retry_options.attempts == 1
+
+
+def test_missing_gemini_api_key_is_a_configuration_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(agent_module, "load_dotenv", lambda **_: None)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
 
     with pytest.raises(ProviderError, match="missing_api_key") as error:
         ReminderAgent.from_environment()
     assert error.value.category == "configuration_error"
 
 
-def test_missing_model_is_a_configuration_error(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "not-a-real-test-key")
-    monkeypatch.delenv("ANTHROPIC_MODEL", raising=False)
+@pytest.mark.parametrize(
+    ("exception", "category", "code"),
+    [
+        (APIError(429, {"message": "limited"}), "service_error", "provider_rate_limited"),
+        (APIError(503, {"message": "unavailable"}), "service_error", "provider_unavailable"),
+        (
+            APIError(400, {"message": "invalid request"}),
+            "provider_error",
+            "provider_request_failed",
+        ),
+        (_interactions_api_error(404), "provider_error", "model_unavailable"),
+        (httpx.TimeoutException("timed out"), "service_error", "provider_timeout"),
+        (httpx.ConnectError("connection failed"), "service_error", "provider_unavailable"),
+    ],
+)
+def test_gemini_provider_failures_are_classified(
+    monkeypatch: pytest.MonkeyPatch,
+    exception: Exception,
+    category: str,
+    code: str,
+) -> None:
+    class FakeInteractions:
+        def create(self, **_kwargs: Any) -> None:
+            raise exception
 
-    with pytest.raises(ProviderError, match="missing_model") as error:
-        ReminderAgent.from_environment()
-    assert error.value.category == "configuration_error"
+    class FakeClient:
+        def __init__(self, **_kwargs: Any) -> None:
+            self.interactions = FakeInteractions()
+
+    monkeypatch.setattr(agent_module, "load_dotenv", lambda **_: None)
+    monkeypatch.setattr(agent_module.genai, "Client", FakeClient)
+    monkeypatch.setenv("GEMINI_API_KEY", "not-a-real-test-key")
+
+    agent = ReminderAgent.from_environment()
+    with pytest.raises(ProviderError, match=code) as error:
+        agent.parse("Call the dentist tomorrow at 9am", "2026-01-15T12:00:00Z")
+    assert error.value.category == category

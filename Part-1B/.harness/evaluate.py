@@ -16,6 +16,7 @@ from evaluator import aggregate_results, evaluate_case
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET_PATH = ROOT / "evals" / "dataset.json"
+DEFAULT_MODEL = "gemini-3.8-flash"
 _SECRET_PATTERNS = (
     re.compile(r"sk-ant-[A-Za-z0-9_-]{16,}"),
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
@@ -23,6 +24,14 @@ _SECRET_PATTERNS = (
     re.compile(r"AIza[0-9A-Za-z_-]{30,}"),
     re.compile(r"AKIA[0-9A-Z]{16}"),
 )
+_CLASSIFIED_FAILURES = {
+    "application_error",
+    "application_timeout",
+    "configuration_error",
+    "invalid_application_output",
+    "model_output_error",
+    "service_error",
+}
 
 
 def _load_cases(path: Path) -> list[dict[str, Any]]:
@@ -205,8 +214,12 @@ def run_evaluation(dataset_path: Path, output_dir: Path) -> tuple[dict[str, Any]
         "run_id": run_id,
         "checked_at": datetime.now(UTC).isoformat(),
         "target": "Part-1B",
-        "model": os.environ.get("ANTHROPIC_MODEL"),
+        "provider": "Gemini Developer API",
+        "model": os.environ.get("GEMINI_MODEL") or DEFAULT_MODEL,
         "temperature": 0,
+        "stored_by_provider": False,
+        "automatic_continuation": False,
+        "sdk_retry_attempts": 1,
         "max_tokens": 512,
         "timeout_seconds": 45,
         "max_provider_calls_per_valid_case": 1,
@@ -228,12 +241,12 @@ def run_evaluation(dataset_path: Path, output_dir: Path) -> tuple[dict[str, Any]
         report_path = _report_path(output_dir, run_id)
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         return report, 1
-    if not os.environ.get("ANTHROPIC_API_KEY") or not os.environ.get("ANTHROPIC_MODEL"):
+    if not os.environ.get("GEMINI_API_KEY"):
         report["status"] = "blocked_configuration"
         report["summary"] = {
             "passed": False,
             "model_calls": 0,
-            "message": "Set ANTHROPIC_API_KEY and ANTHROPIC_MODEL locally before evaluation.",
+            "message": "Set GEMINI_API_KEY locally before evaluation.",
         }
         report_path = _report_path(output_dir, run_id)
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
@@ -270,7 +283,21 @@ def run_evaluation(dataset_path: Path, output_dir: Path) -> tuple[dict[str, Any]
         1 for result in report["results"] if result.get("provider_calls") == 0
     )
     aggregate["service_failures"] = service_failures
-    aggregate["unclassified_failures"] = len(cases) - len(evaluated_cases)
+    aggregate["case_count"] = len(cases)
+    aggregate["passed_case_count"] = sum(
+        result.get("passed") is True for result in report["results"]
+    )
+    aggregate["evaluated_case_count"] = len(evaluated_cases)
+    aggregate["unscored_case_count"] = len(cases) - len(evaluated_cases)
+    aggregate["application_timeouts"] = sum(
+        result.get("failure_class") == "application_timeout"
+        for result in report["results"]
+    )
+    aggregate["unclassified_failures"] = sum(
+        result.get("failure_class") not in _CLASSIFIED_FAILURES
+        for result in report["results"]
+        if "structural" not in result
+    )
     aggregate["passed"] = (
         aggregate["passed"]
         and not service_failures

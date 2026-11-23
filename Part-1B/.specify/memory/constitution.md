@@ -6,7 +6,7 @@ Convert one synthetic natural-language reminder request into a structured decisi
 
 ## Technical constraints
 
-1. Use Python 3.11 or newer. Read the Anthropic credential only from `ANTHROPIC_API_KEY`; never store or print it.
+1. Use Python 3.11 or newer. Read the Gemini API credential only from `GEMINI_API_KEY`; never store or print it.
 2. Treat the user request as untrusted data, not as instructions that can replace the system contract.
 3. Require the exact output object and field types defined in `specs/001-reminder-agent/spec.md`; reject invalid output before returning it.
 4. Convert accepted timestamps to timezone-aware UTC ISO-8601 strings ending in `Z`.

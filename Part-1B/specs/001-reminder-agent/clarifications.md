@@ -10,3 +10,4 @@
 | CL-B-006 | How is semantic quality scored? | Use per-case required/prohibited term rubrics; report the lexical metric and its paraphrase limitation. | FR-B-004 |
 | CL-B-007 | What is the repair/evaluation boundary? | The dataset, evaluator, properties, and threshold are protected inputs; application or prompt changes cannot modify them. | FR-B-004 |
 | CL-B-008 | How are service retries handled? | No SDK auto-retry; report transient service errors separately so results are not silently masked. | FR-B-005 |
+| CL-B-009 | Which model provider and configuration are used? | Use Gemini Developer API through `google-genai`; read `GEMINI_API_KEY`, default to `gemini-3.8-flash`, permit a `GEMINI_MODEL` override, and send non-stored interactions without retries or continuation. | FR-B-005 |

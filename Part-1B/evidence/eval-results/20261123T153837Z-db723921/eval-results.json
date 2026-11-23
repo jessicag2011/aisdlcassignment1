@@ -1,0 +1,307 @@
+{
+  "run_id": "20261123T153837Z-db723921",
+  "checked_at": "2026-11-23T15:38:40.743918+00:00",
+  "target": "Part-1B",
+  "provider": "Gemini Developer API",
+  "model": "gemini-2.5-flash",
+  "temperature": 0,
+  "stored_by_provider": false,
+  "automatic_continuation": false,
+  "sdk_retry_attempts": 1,
+  "max_tokens": 512,
+  "timeout_seconds": 45,
+  "max_provider_calls_per_valid_case": 1,
+  "threshold": {
+    "semantic": 0.8,
+    "all_structural_and_properties_pass": true,
+    "all_guardrails_score_1": true
+  },
+  "preflight": [
+    {
+      "name": "ruff",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "...........................                                              [100%]\n27 passed in 0.79s\n",
+      "stderr": ""
+    },
+    {
+      "name": "harness-self-check",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "{\n  \"passed\": true,\n  \"checks\": {\n    \"good_response_passed_all_layers\": true,\n    \"structure_rejected_extra_field\": true,\n    \"property_rejected_wrong_due_time\": true,\n    \"semantic_scored_wrong_title_zero\": true\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "results": [
+    {
+      "case_id": "CASE-B-001",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-002",
+        "AC-B-001"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-002",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-002",
+        "AC-B-001"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-003",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-002",
+        "AC-B-004"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-004",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-002"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-005",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-003"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-006",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-003"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-007",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-005"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-008",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-006"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-009",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-002",
+        "AC-B-007"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-010",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-008"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-011",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-002",
+        "AC-B-009"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-012",
+      "requirement_ids": [
+        "FR-B-002",
+        "AC-B-010"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-013",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-005",
+        "AC-B-011"
+      ],
+      "guardrail": true,
+      "passed": true,
+      "structural": {
+        "passed": true,
+        "findings": []
+      },
+      "properties": {
+        "passed": true,
+        "findings": []
+      },
+      "semantic": {
+        "score": 1.0,
+        "matched_terms": [],
+        "missing_terms": []
+      },
+      "expected_error_category": "input_error",
+      "provider_calls": 0,
+      "output": {
+        "error": {
+          "category": "input_error",
+          "code": "invalid_request"
+        }
+      },
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-014",
+      "requirement_ids": [
+        "FR-B-003",
+        "AC-B-012"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-015",
+      "requirement_ids": [
+        "FR-B-003",
+        "AC-B-013"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-016",
+      "requirement_ids": [
+        "FR-B-001",
+        "FR-B-003",
+        "AC-B-014"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-017",
+      "requirement_ids": [
+        "FR-B-003",
+        "AC-B-013"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    },
+    {
+      "case_id": "CASE-B-018",
+      "requirement_ids": [
+        "FR-B-003",
+        "AC-B-012"
+      ],
+      "failure_class": "invalid_application_output",
+      "passed": false,
+      "provider_calls": 1,
+      "output": null,
+      "output_redacted": false
+    }
+  ],
+  "summary": {
+    "passed": false,
+    "semantic_score": 1.0,
+    "semantic_threshold": 0.8,
+    "structural_passed": true,
+    "properties_passed": true,
+    "guardrails_passed": true,
+    "case_count": 1,
+    "passed_case_count": 1,
+    "model_calls": 17,
+    "service_failures": 0,
+    "unclassified_failures": 17
+  },
+  "status": "failed"
+}
