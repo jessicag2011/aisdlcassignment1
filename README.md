@@ -20,6 +20,8 @@ The Part 1A deterministic harness has recorded local runs, including an actual l
 
 The specifications and plans are drafted in the repository; the installed Spec Kit CLI workflow and student approval checkpoint have not been performed in this environment. Do not claim command execution or approval that is not supported by the actual history.
 
+Fresh-clone verification is preserved under each part's `evidence/`: Part 1A passed all gates; Part 1B passed preflight and safely stopped before any model calls because configuration was absent.
+
 The two `evidence/harness-log.md` files are intentionally left for the student to complete from actual runs. The assignment reflection, template problem statements, and submission identity fields are also student-authored.
 
 ## Traceability and AI-use note

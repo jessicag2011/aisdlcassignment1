@@ -48,3 +48,5 @@ The runner executes Ruff, Bandit, and pytest as independent gates and saves a JS
 This is a local, single-user program. Concurrent writers, backup/restore, synchronization, authentication, and due-date reminders are out of scope.
 
 The harness log at `evidence/harness-log.md` is intentionally reserved for the student to complete from actual runs and their own review.
+
+The fresh-clone report is [`evidence/harness-results/fresh-clone-20261123T145647Z-3cbaf93c/report.json`](./evidence/harness-results/fresh-clone-20261123T145647Z-3cbaf93c/report.json).

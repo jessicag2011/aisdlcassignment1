@@ -1,0 +1,52 @@
+{
+  "run_id": "20261123T145651Z-88e9ee23",
+  "checked_at": "2026-11-23T14:57:00.037456+00:00",
+  "target": "Part-1B",
+  "model": null,
+  "temperature": 0,
+  "max_tokens": 512,
+  "timeout_seconds": 45,
+  "max_provider_calls_per_valid_case": 1,
+  "threshold": {
+    "semantic": 0.8,
+    "all_structural_and_properties_pass": true,
+    "all_guardrails_score_1": true
+  },
+  "preflight": [
+    {
+      "name": "ruff",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": ".....................                                                    [100%]\n21 passed in 3.50s\n",
+      "stderr": ""
+    },
+    {
+      "name": "harness-self-check",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "{\n  \"passed\": true,\n  \"checks\": {\n    \"good_response_passed_all_layers\": true,\n    \"structure_rejected_extra_field\": true,\n    \"property_rejected_wrong_due_time\": true,\n    \"semantic_scored_wrong_title_zero\": true\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "results": [],
+  "status": "blocked_configuration",
+  "summary": {
+    "passed": false,
+    "model_calls": 0,
+    "message": "Set ANTHROPIC_API_KEY and ANTHROPIC_MODEL locally before evaluation."
+  }
+}

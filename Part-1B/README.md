@@ -48,3 +48,5 @@ The declared threshold is in `specs/001-reminder-agent/spec.md`: all structure a
 - Final source copy: [`evidence/final-generation/`](./evidence/final-generation/).
 
 The harness log at `evidence/harness-log.md` is intentionally reserved for the student to complete from actual runs and personal review.
+
+The fresh-clone report is [`evidence/eval-results/fresh-clone-20261123T145651Z-88e9ee23/eval-results.json`](./evidence/eval-results/fresh-clone-20261123T145651Z-88e9ee23/eval-results.json). It records a blocked configuration, not a model evaluation.
