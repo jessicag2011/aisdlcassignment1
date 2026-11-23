@@ -43,6 +43,8 @@ The declared threshold is in `specs/001-reminder-agent/spec.md`: all structure a
 
 - Specification and IDs: [`specs/001-reminder-agent/spec.md`](./specs/001-reminder-agent/spec.md)
 - Clarifications and tasks: [`specs/001-reminder-agent/clarifications.md`](./specs/001-reminder-agent/clarifications.md), [`specs/001-reminder-agent/tasks.md`](./specs/001-reminder-agent/tasks.md)
+- Manual consistency review: [`specs/001-reminder-agent/analysis.md`](./specs/001-reminder-agent/analysis.md); this is not a Spec Kit CLI output.
 - Dataset and case mapping: [`evals/dataset.json`](./evals/dataset.json), [`specs/001-reminder-agent/traceability.csv`](./specs/001-reminder-agent/traceability.csv)
+- Final source copy: [`evidence/final-generation/`](./evidence/final-generation/).
 
 The harness log at `evidence/harness-log.md` is intentionally reserved for the student to complete from actual runs and personal review.

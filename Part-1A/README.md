@@ -38,8 +38,10 @@ The runner executes Ruff, Bandit, and pytest as independent gates and saves a JS
 
 - Specification and IDs: [`specs/001-smart-todo/spec.md`](./specs/001-smart-todo/spec.md)
 - Clarifications: [`specs/001-smart-todo/clarifications.md`](./specs/001-smart-todo/clarifications.md)
+- Manual consistency review: [`specs/001-smart-todo/analysis.md`](./specs/001-smart-todo/analysis.md); this is not a Spec Kit CLI output.
 - Plan and task links: [`specs/001-smart-todo/plan.md`](./specs/001-smart-todo/plan.md), [`specs/001-smart-todo/tasks.md`](./specs/001-smart-todo/tasks.md)
 - Criterion-to-test map: [`specs/001-smart-todo/traceability.csv`](./specs/001-smart-todo/traceability.csv)
+- Final source copy: [`evidence/final-generation/`](./evidence/final-generation/). The initial-generation copy was not captured before the first local harness run.
 
 ## Limitations
 
