@@ -1,0 +1,29 @@
+{
+  "run_id": "20261123T143833Z-0d9c255b",
+  "checked_at": "2026-11-23T14:38:33.936736+00:00",
+  "target": "Part-1A",
+  "passed": false,
+  "gates": [
+    {
+      "name": "ruff",
+      "passed": false,
+      "exit_code": 1,
+      "stdout": "UP017 [*] Use `datetime.UTC` alias\n  --> .harness\\run.py:63:30\n   |\n61 |     ]\n62 |     passed = all(gate[\"passed\"] for gate in gates)\n63 |     timestamp = datetime.now(timezone.utc).isoformat()\n   |                              ^^^^^^^^^^^^\n64 |     report = {\n65 |         \"run_id\": f\"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}\",\n   |\nhelp: Convert to `datetime.UTC` alias\n   |\n6  | import uuid\n   - from datetime import datetime, timezone\n7  + from datetime import datetime, timezone, UTC\n8  | from pathlib import Path\n--------------------------------------------------------------------------------\n62 |     passed = all(gate[\"passed\"] for gate in gates)\n   -     timestamp = datetime.now(timezone.utc).isoformat()\n63 +     timestamp = datetime.now(UTC).isoformat()\n64 |     report = {\n   |\n\nUP017 [*] Use `datetime.UTC` alias\n  --> .harness\\run.py:65:35\n   |\n63 |     timestamp = datetime.now(timezone.utc).isoformat()\n64 |     report = {\n65 |         \"run_id\": f\"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}\",\n   |                                   ^^^^^^^^^^^^\n66 |         \"checked_at\": timestamp,\n67 |         \"target\": \"Part-1A\",\n   |\nhelp: Convert to `datetime.UTC` alias\n   |\n6  | import uuid\n   - from datetime import datetime, timezone\n7  + from datetime import datetime, timezone, UTC\n8  | from pathlib import Path\n--------------------------------------------------------------------------------\n64 |     report = {\n   -         \"run_id\": f\"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}\",\n65 +         \"run_id\": f\"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}\",\n66 |         \"checked_at\": timestamp,\n   |\n\nSIM105 Use `contextlib.suppress(FileNotFoundError)` instead of `try`-`except`-`pass`\n  --> src\\todo\\storage.py:93:13\n   |\n91 |       except OSError as error:\n92 |           if temporary_path is not None:\n93 | /             try:\n94 | |                 os.unlink(temporary_path)\n95 | |             except FileNotFoundError:\n96 | |                 pass\n   | |____________________^\n97 |           raise StorageError(f\"cannot write task store: {error.strerror}\") from error\n   |\nhelp: Replace `try`-`except`-`pass` with `with contextlib.suppress(FileNotFoundError): ...`\n   |\n9  | from todo.errors import StorageError\n10 + import contextlib\n11 |\n--------------------------------------------------------------------------------\n93 |         if temporary_path is not None:\n   -             try:\n94 +             with contextlib.suppress(FileNotFoundError):\n95 |                 os.unlink(temporary_path)\n   -             except FileNotFoundError:\n   -                 pass\n96 |         raise StorageError(f\"cannot write task store: {error.strerror}\") from error\n   |\nnote: This is an unsafe fix and may change runtime behavior\n\nFound 3 errors.\n[*] 2 fixable with `--fix` (1 unsafe fix available with `--fix --unsafe-fixes`).\n",
+      "stderr": ""
+    },
+    {
+      "name": "bandit",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "pytest",
+      "passed": true,
+      "exit_code": 0,
+      "stdout": "...............                                                          [100%]\n15 passed in 4.51s\n",
+      "stderr": ""
+    }
+  ]
+}
