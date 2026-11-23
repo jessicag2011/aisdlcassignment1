@@ -18,7 +18,7 @@ Both projects use Python 3.11 or newer. Development checks use pytest, Ruff, and
 
 The Part 1A deterministic harness has recorded local runs, including an actual lint failure followed by a passing run. The initial-generation snapshot was not preserved before the first local check, so do not claim that it was. Part 1B's offline preflight and evaluator self-check pass, but its live evaluation is blocked until a model and API key are configured. Do not treat generated source or specification artifacts as student-reviewed or accepted until you have reviewed them. No human ACCEPT/REJECT decision is claimed here.
 
-The specifications and plans are drafted in the repository; the installed Spec Kit CLI workflow and student approval checkpoint have not been performed in this environment. Do not claim command execution or approval that is not supported by the actual history.
+Both project folders are initialized with Spec Kit 1.4.3, the GitHub Copilot integration, and PowerShell scripts. Initialization installed the shared templates and `/speckit-*` skills; it did not execute those skills to regenerate or analyze the existing specifications. The spec workflow and student approval checkpoint remain pending. Do not claim command execution or approval beyond the initialization that actually ran.
 
 Fresh-clone verification is preserved under each part's `evidence/`: Part 1A passed all gates; Part 1B passed preflight and safely stopped before any model calls because configuration was absent.
 
