@@ -8,3 +8,5 @@
 - [ ] **TASK-B-006 — Add offline tests and self-checks** (`FR-B-001`–`FR-B-005`): use injected fake outputs to verify each evaluation layer can reject invalid behavior without calling a live model.
 - [ ] **TASK-B-007 — Review live evaluation and record decision** (`US-B-01`–`US-B-03`): student reviews the actual provider report and writes the harness log and human decision.
 - [x] **TASK-B-008 — Migrate provider to Gemini** (`US-B-01`, `FR-B-005`): use Gemini Interactions with `GEMINI_API_KEY`, stateless requests, and retries/continuation disabled.
+- [x] **TASK-B-009 — Pace live Gemini requests** (`US-B-01`, `FR-B-005`): wait at least five seconds between provider calls in a formal evaluation and report the configured interval.
+- [x] **TASK-B-010 — Set the SDK call timeout in seconds** (`US-B-01`, `FR-B-005`): pass the per-interaction timeout in the units required by the Interactions SDK and retain the millisecond unit for client HTTP options.

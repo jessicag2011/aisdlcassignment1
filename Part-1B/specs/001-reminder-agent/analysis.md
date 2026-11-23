@@ -11,6 +11,9 @@ Status: manual consistency review of the current files, not a GitHub Spec Kit `/
 - Gemini provider service errors are reported as `service_error` and are not scored as successful model outputs.
 - Gemini API credentials are loaded only from `GEMINI_API_KEY`; the model defaults to `gemini-3.8-flash` and can be overridden with `GEMINI_MODEL`.
 - Gemini interactions are non-stored; SDK retries and automatic continuation are disabled to preserve the one-call evaluation limit.
+- The formal evaluator waits at least five seconds after each valid-case process before starting the next valid-case request and records the configured interval.
+- The first paced trial passed preflight but timed out all 17 valid-case processes because the Interactions SDK per-call timeout was supplied in milliseconds instead of seconds; this was corrected.
+- The subsequent paced run passed all preflight gates but still timed out all 17 valid-case processes at the harness boundary. It only scored the invalid-input case, does not establish model quality, and cannot confirm rate-limit behavior.
 
 ## Open items
 

@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
@@ -17,6 +18,7 @@ from evaluator import aggregate_results, evaluate_case
 ROOT = Path(__file__).resolve().parents[1]
 DATASET_PATH = ROOT / "evals" / "dataset.json"
 DEFAULT_MODEL = "gemini-3.8-flash"
+PROVIDER_REQUEST_DELAY_SECONDS = 5
 _SECRET_PATTERNS = (
     re.compile(r"sk-ant-[A-Za-z0-9_-]{16,}"),
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
@@ -223,6 +225,7 @@ def run_evaluation(dataset_path: Path, output_dir: Path) -> tuple[dict[str, Any]
         "max_tokens": 512,
         "timeout_seconds": 45,
         "max_provider_calls_per_valid_case": 1,
+        "minimum_inter_request_delay_seconds": PROVIDER_REQUEST_DELAY_SECONDS,
         "threshold": {
             "semantic": 0.80,
             "all_structural_and_properties_pass": True,
@@ -253,7 +256,12 @@ def run_evaluation(dataset_path: Path, output_dir: Path) -> tuple[dict[str, Any]
         return report, 2
 
     service_failures = 0
+    valid_case_calls = 0
     for case in cases:
+        if not case.get("expected_error_category"):
+            if valid_case_calls:
+                time.sleep(PROVIDER_REQUEST_DELAY_SECONDS)
+            valid_case_calls += 1
         response, failure_class = _invoke_app(case)
         if failure_class is not None:
             service_failures += failure_class == "service_error"

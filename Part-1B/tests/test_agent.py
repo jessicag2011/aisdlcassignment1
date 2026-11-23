@@ -42,6 +42,11 @@ def _interactions_api_error(status_code: int) -> Exception:
     )
 
 
+def _interactions_timeout_error() -> Exception:
+    request = httpx.Request("POST", "https://example.test/interactions")
+    return agent_module.InteractionsTimeoutError(request)
+
+
 def test_agent_passes_fixed_reference_time_as_json_to_model() -> None:
     captured: dict[str, str] = {}
 
@@ -139,6 +144,7 @@ def test_gemini_configuration_uses_model_default_and_stateless_json(
     assert request["automatic_continuation"] is False
     assert request["response_format"]["mime_type"] == "application/json"
     assert request["system_instruction"] == agent_module.SYSTEM_PROMPT
+    assert request["timeout"] == agent_module.REQUEST_TIMEOUT_SECONDS
     assert http_options.timeout == int(agent_module.REQUEST_TIMEOUT_SECONDS * 1000)
     assert http_options.retry_options.attempts == 1
 
@@ -166,6 +172,7 @@ def test_missing_gemini_api_key_is_a_configuration_error(
         ),
         (_interactions_api_error(404), "provider_error", "model_unavailable"),
         (httpx.TimeoutException("timed out"), "service_error", "provider_timeout"),
+        (_interactions_timeout_error(), "service_error", "provider_timeout"),
         (httpx.ConnectError("connection failed"), "service_error", "provider_unavailable"),
     ],
 )

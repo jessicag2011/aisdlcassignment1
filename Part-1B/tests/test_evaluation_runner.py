@@ -108,3 +108,50 @@ def test_report_counts_unscored_provider_failures_in_dataset_totals(
     assert report["summary"]["unscored_case_count"] == 1
     assert report["summary"]["service_failures"] == 1
     assert report["summary"]["unclassified_failures"] == 0
+
+
+def test_valid_case_requests_are_spaced_by_five_seconds(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path,
+) -> None:
+    cases = [
+        {
+            "case_id": "CASE-B-001",
+            "requirement_ids": ["FR-B-001"],
+            "input": "A valid synthetic request",
+            "now": "2026-01-15T12:00:00Z",
+        },
+        {
+            "case_id": "CASE-B-002",
+            "requirement_ids": ["FR-B-001"],
+            "input": "",
+            "now": "2026-01-15T12:00:00Z",
+            "expected_error_category": "input_error",
+        },
+        {
+            "case_id": "CASE-B-003",
+            "requirement_ids": ["FR-B-001"],
+            "input": "Another valid synthetic request",
+            "now": "2026-01-15T12:00:00Z",
+        },
+    ]
+    results = iter(
+        [
+            (None, "service_error"),
+            ({"error": {"category": "input_error", "code": "invalid_request"}}, None),
+            (None, "service_error"),
+        ]
+    )
+    sleep_calls: list[float] = []
+    monkeypatch.setattr(evaluate, "load_dotenv", lambda **_kwargs: None)
+    monkeypatch.setattr(evaluate, "_load_cases", lambda _path: cases)
+    monkeypatch.setattr(evaluate, "_preflight", lambda: [{"passed": True}])
+    monkeypatch.setattr(evaluate, "_invoke_app", lambda _case: next(results))
+    monkeypatch.setattr(evaluate.time, "sleep", sleep_calls.append)
+    monkeypatch.setenv("GEMINI_API_KEY", "not-a-real-test-key")
+
+    report, exit_code = evaluate.run_evaluation(evaluate.DATASET_PATH, tmp_path)
+
+    assert exit_code == 1
+    assert sleep_calls == [5]
+    assert report["minimum_inter_request_delay_seconds"] == 5

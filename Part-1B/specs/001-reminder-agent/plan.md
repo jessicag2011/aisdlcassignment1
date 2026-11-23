@@ -16,6 +16,7 @@
 3. Keep the dataset/evaluator/threshold outside the application package and report service errors separately (FR-B-004, FR-B-005).
 4. Use a deterministic lexical rubric for semantic scoring and disclose its paraphrase limitations (FR-B-004).
 5. Use `gemini-3.8-flash` by default, allow `GEMINI_MODEL` overrides, and disable retries and automatic continuation so the one-call limit is enforceable (FR-B-005).
+6. Wait at least five seconds between valid-case provider requests during formal evaluation to reduce request-rate pressure without changing case data or scoring (FR-B-005).
 
 ## Component map
 

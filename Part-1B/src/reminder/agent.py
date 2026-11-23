@@ -10,7 +10,13 @@ from typing import Any
 import httpx
 from dotenv import load_dotenv
 from google import genai
+from google.genai._gaos.lib.compat_errors import (
+    APIConnectionError as InteractionsConnectionError,
+)
 from google.genai._gaos.lib.compat_errors import APIError as InteractionsAPIError
+from google.genai._gaos.lib.compat_errors import (
+    APITimeoutError as InteractionsTimeoutError,
+)
 from google.genai.errors import APIError
 from google.genai.types import HttpOptions, HttpRetryOptions
 
@@ -110,11 +116,11 @@ class ReminderAgent:
                     },
                     store=False,
                     automatic_continuation=False,
-                    timeout=int(REQUEST_TIMEOUT_SECONDS * 1000),
+                    timeout=REQUEST_TIMEOUT_SECONDS,
                 )
-            except httpx.TimeoutException as error:
+            except (httpx.TimeoutException, InteractionsTimeoutError) as error:
                 raise ProviderError("service_error", "provider_timeout") from error
-            except httpx.TransportError as error:
+            except (httpx.TransportError, InteractionsConnectionError) as error:
                 raise ProviderError("service_error", "provider_unavailable") from error
             except (APIError, InteractionsAPIError) as error:
                 status_code = getattr(error, "status_code", None) or getattr(
