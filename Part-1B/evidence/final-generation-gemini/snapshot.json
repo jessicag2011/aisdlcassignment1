@@ -1,0 +1,16 @@
+{
+  "source_commit": "c8901acb281f4a536a130073198f5ee740560d44",
+  "source_path": "Part-1B/src",
+  "provider": "Gemini Developer API",
+  "model": "gemini-3.8-flash",
+  "checks": {
+    "ruff": "PASS",
+    "bandit": "PASS",
+    "pytest": "29 passed",
+    "harness_self_check": "PASS"
+  },
+  "checked_at": "2026-11-23T15:57:31Z",
+  "live_evaluation": "FAILED_PROVIDER_ERRORS_AND_TIMEOUTS",
+  "evaluation_report": "evidence/eval-results/20261123T154237Z-3e09aa56/eval-results.json",
+  "note": "All four preflight gates passed. The live evaluation scored only the invalid-input case; 17 valid-request cases received provider-unavailable/rate-limit errors or application timeouts. This is not a model-quality result."
+}
