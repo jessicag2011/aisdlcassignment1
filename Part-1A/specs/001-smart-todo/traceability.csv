@@ -1,0 +1,16 @@
+acceptance_criterion,requirement,story,test
+AC-A-001,FR-A-001;FR-A-003,US-A-01;US-A-03,tests/test_cli_contract.py
+AC-A-002,FR-A-001;FR-A-004,US-A-01,tests/test_cli_contract.py
+AC-A-003,FR-A-001,US-A-01,tests/test_cli_contract.py
+AC-A-004,FR-A-001;FR-A-003,US-A-01;US-A-03,tests/test_cli_contract.py
+AC-A-005,FR-A-001;FR-A-002,US-A-01;US-A-02,tests/test_cli_contract.py
+AC-A-006,FR-A-001;FR-A-004,US-A-01,tests/test_cli_contract.py
+AC-A-007,FR-A-002,US-A-02,tests/test_cli_contract.py
+AC-A-008,FR-A-002,US-A-02,tests/test_cli_contract.py
+AC-A-009,FR-A-002,US-A-02,tests/test_cli_contract.py
+AC-A-010,FR-A-002,US-A-02,tests/test_cli_contract.py
+AC-A-011,FR-A-001;FR-A-003,US-A-01;US-A-03,tests/test_cli_contract.py
+AC-A-012,FR-A-003,US-A-03,tests/test_cli_contract.py
+AC-A-013,FR-A-003,US-A-03,tests/test_cli_contract.py
+AC-A-014,FR-A-003,US-A-03,tests/test_cli_contract.py
+AC-A-015,FR-A-004,US-A-01;US-A-03,tests/test_cli_contract.py
