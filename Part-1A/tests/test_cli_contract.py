@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import pytest
+
 _ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -103,14 +105,29 @@ def test_update_persists_all_supported_fields(tmp_path: Path) -> None:
 
 
 def test_invalid_priority_is_rejected_by_cli(tmp_path: Path) -> None:
-    result = _run_cli(tmp_path / "todo.json", "add", "--title", "Draft", "--priority", "urgent")
+    database = tmp_path / "todo.json"
+    _add(database, "Draft")
+    original = database.read_text(encoding="utf-8")
+
+    result = _run_cli(database, "update", "1", "--priority", "urgent")
 
     assert result.returncode == 2
     assert "invalid choice" in result.stderr
+    assert database.read_text(encoding="utf-8") == original
 
 
-def test_unknown_task_id_has_stable_error(tmp_path: Path) -> None:
-    result = _run_cli(tmp_path / "todo.json", "show", "42")
+@pytest.mark.parametrize(
+    "command",
+    [
+        ("show", "42"),
+        ("update", "42", "--title", "Changed"),
+        ("complete", "42"),
+        ("reopen", "42"),
+        ("delete", "42"),
+    ],
+)
+def test_unknown_task_id_has_stable_error(tmp_path: Path, command: tuple[str, ...]) -> None:
+    result = _run_cli(tmp_path / "todo.json", *command)
 
     assert result.returncode == 2
     assert result.stdout == ""
@@ -162,8 +179,10 @@ def test_delete_does_not_reuse_task_ids(tmp_path: Path) -> None:
     _json_output(_run_cli(database, "delete", "2"))
 
     created = _add(database, "New")
+    listed = _json_output(_run_cli(database, "list"))
 
     assert created["id"] == 3
+    assert [task["id"] for task in listed["tasks"]] == [1, 3]
 
 
 def test_mutation_survives_a_new_process(tmp_path: Path) -> None:

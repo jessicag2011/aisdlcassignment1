@@ -16,7 +16,9 @@ Both projects use Python 3.11 or newer. Development checks use pytest, Ruff, and
 
 ## Verification status
 
-The code and harness are being prepared in this repository. Do not treat generated source or specification artifacts as student-reviewed or accepted until you have reviewed them. No live-model evaluation, repair cycle, or human ACCEPT/REJECT decision is claimed here.
+The Part 1A deterministic harness has recorded local runs, including an actual lint failure followed by a passing run. The initial-generation snapshot was not preserved before the first local check, so do not claim that it was. Part 1B's offline preflight and evaluator self-check pass, but its live evaluation is blocked until a model and API key are configured. Do not treat generated source or specification artifacts as student-reviewed or accepted until you have reviewed them. No human ACCEPT/REJECT decision is claimed here.
+
+The specifications and plans are drafted in the repository; the installed Spec Kit CLI workflow and student approval checkpoint have not been performed in this environment. Do not claim command execution or approval that is not supported by the actual history.
 
 The two `evidence/harness-log.md` files are intentionally left for the student to complete from actual runs. The assignment reflection, template problem statements, and submission identity fields are also student-authored.
 
